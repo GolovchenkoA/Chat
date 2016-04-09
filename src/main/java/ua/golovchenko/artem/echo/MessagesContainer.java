@@ -36,11 +36,35 @@ public class MessagesContainer implements Subject{
 
     @Override
     public void notifyObservers() {
+        List<Observer> observerLocal = null;
+        //synchronization is used to make sure any observer registered after message is received is not notified
+        synchronized (MUTEX){
+
+            // Если changed = false прекращаем метод и возвращаем управление
+            if(!changed)
+                return;
+
+            // если changed != false;
+            observerLocal = new ArrayList<>(this.observers);
+            changed = false;
+        }
+        // У всех подписчиков вызываем update
+        for(Observer observer : observerLocal){
+            observer.update();
+        }
 
     }
 
     @Override
     public Object getUpdate(Observer obj) {
-        return null;
+        return this.messages;
+    }
+
+    // добавляем новое сообщение
+    public void postMessage(String messages){
+        System.out.println("Message posted to Topic: " + messages);
+        this.messages = messages;
+        this.changed = true;
+        notifyObservers();
     }
 }

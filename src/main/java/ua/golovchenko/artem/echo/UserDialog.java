@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by java on 09.04.2016.
@@ -45,22 +43,34 @@ public class UserDialog implements Runnable {
 
             //++MultiEchoServer.clientNumber; // увеличиваем счетчик соединений
 
-            System.out.println("Server accept connection from (client port)" + socket.getPort() + " ConnectionsCount = " + MultiEchoServer.clientNumber + "; Add Client with number: " + clientNumber);
-            //Приветствие
-            out.write("Hello. Enter your name");
+           System.out.println("Server accept connection from (client port)" + socket.getPort() + " ConnectionsCount = " + MultiEchoServer.clientNumber + "; Add Client with number: " + clientNumber);
+/*             //Приветствие
+            out.write("Hello. Enter your name");*/
             // Создаем пользователя
+/*
             String userName = in.readLine();
-            user = new User(userName);
+*/
+            // Создаем пользователя
+            user = new User(clientNumber.toString());
+
+            //Создаем подписчика на общий чат
+            Observer observer = new MessagesSubcribers(clientNumber.toString());
+            MultiEchoServer.PublicChat.register(observer);
+            observer.setSubject(MultiEchoServer.PublicChat);
+
 
             //Диалог пользователя
             String serverIn;
             while ((serverIn = in.readLine()) != null) {
 
+                MultiEchoServer.PublicChat.postMessage(serverIn);
                 
+/*              // Добавление даты в сообщение
                 Calendar calendar = Calendar.getInstance();
                 Date date = calendar.getTime();
                 userMessage = new Message(user,date,serverIn);
-                //out.println(serverIn);
+*/
+                out.println(serverIn);
             }
 
         } catch (Exception e) {

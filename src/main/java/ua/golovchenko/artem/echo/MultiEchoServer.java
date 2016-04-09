@@ -10,6 +10,7 @@ public class MultiEchoServer {
 
     static final int PORT = 4444;
     static Long clientNumber = 0L; // Счетчик подключений
+    static MessagesContainer PublicChat = new MessagesContainer();
     //static Collection<Message> publicMessages = new Ar;
 
     static public void main(String[] args) {
@@ -17,6 +18,7 @@ public class MultiEchoServer {
         try (
                 ServerSocket serverSocket = new ServerSocket(PORT); // Прослушиваем порт сервера
         ) {
+
 
             // Бесконечное ожидание подключения клиента
             while (true) {

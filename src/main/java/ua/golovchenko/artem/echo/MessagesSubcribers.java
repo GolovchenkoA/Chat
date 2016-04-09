@@ -14,11 +14,18 @@ public class MessagesSubcribers implements Observer {
 
     @Override
     public void update() {
+        String msg = (String) topic.getUpdate(this);
+        if (msg == null){
+            System.out.println(name + ":: No message");
+        } else {
+            System.out.println(name + ": consuming message " + msg);
+        }
 
     }
 
     @Override
     public void setSubject(Subject sub) {
+        this.topic = sub;
 
     }
 }
