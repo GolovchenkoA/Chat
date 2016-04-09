@@ -8,19 +8,25 @@ import java.net.Socket;
  */
 public class MultiEchoServer {
 
-    static int port = 4444;
+    static final int PORT = 4444;
+    static Long clientNumber = 0L; // Счетчик подключений
+    //static Collection<Message> publicMessages = new Ar;
 
     static public void main(String[] args) {
 
         try (
-                ServerSocket serverSocket = new ServerSocket(port);
+                ServerSocket serverSocket = new ServerSocket(PORT); // Прослушиваем порт сервера
         ) {
 
+            // Бесконечное ожидание подключения клиента
             while (true) {
-                try(Socket server = serverSocket.accept()) {
-
-                    MultiDialogServer multiDialogServer = new MultiDialogServer(server);
-                    multiDialogServer.start();
+                try{
+                    Socket server = serverSocket.accept();
+                    //Отдельный поток для соединения с клиентом
+                    Thread t = new Thread(new UserDialog(server,++clientNumber));
+                    t.start();
+/*                    MultiDialogServer multiDialogServer = new MultiDialogServer(server);
+                    multiDialogServer.start();*/
 
                 }catch (Exception e) {
                     System.out.println(e);
