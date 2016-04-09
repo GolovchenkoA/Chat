@@ -51,10 +51,10 @@ public class UserDialog implements Runnable {
             String userName = in.readLine();
 */
             // Создаем пользователя
-            user = new User(clientNumber.toString());
+            user = new User("user" + clientNumber);
 
             //Создаем подписчика на общий чат
-            Observer observer = new MessagesSubcribers(clientNumber.toString());
+            Observer observer = new MessagesSubcribers(user.getName());
             MultiEchoServer.PublicChat.register(observer);
             observer.setSubject(MultiEchoServer.PublicChat);
 
@@ -63,7 +63,7 @@ public class UserDialog implements Runnable {
             String serverIn;
             while ((serverIn = in.readLine()) != null) {
 
-                MultiEchoServer.PublicChat.postMessage(serverIn);
+                MultiEchoServer.PublicChat.postMessage(user,serverIn);
                 
 /*              // Добавление даты в сообщение
                 Calendar calendar = Calendar.getInstance();

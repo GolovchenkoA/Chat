@@ -12,6 +12,8 @@ public class MessagesSubcribers implements Observer {
         this.name = name;
     }
 
+
+    //Метод используется при отправке сообщения каждому пользователю. При общем чате - не используется
     @Override
     public void update() {
         String msg = (String) topic.getUpdate(this);

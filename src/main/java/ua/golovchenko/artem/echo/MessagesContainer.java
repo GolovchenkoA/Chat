@@ -44,14 +44,16 @@ public class MessagesContainer implements Subject{
             if(!changed)
                 return;
 
-            // если changed != false;
+            // если changed = true;
             observerLocal = new ArrayList<>(this.observers);
             changed = false;
         }
-        // У всех подписчиков вызываем update
+       // У всех подписчиков вызываем update
         for(Observer observer : observerLocal){
             observer.update();
         }
+
+
 
     }
 
@@ -61,10 +63,10 @@ public class MessagesContainer implements Subject{
     }
 
     // добавляем новое сообщение
-    public void postMessage(String messages){
-        System.out.println("Message posted to Topic: " + messages);
+    public void postMessage(User user,String messages){
+        System.out.println("Message posted by " + user.getName() + ": " + messages);
         this.messages = messages;
         this.changed = true;
-        notifyObservers();
+        //notifyObservers();
     }
 }
